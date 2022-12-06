@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,84 +8,88 @@ namespace Assignment_3
 {
     class Consumer
     {
-        private int consumer_Id;
-        private string consumer_name;
+        private int _consumerId;
+        private string _consumerName;
 
-        public Consumer(int id, string name)
+        public int ConsumerId
+        { get => _consumerId; set => _consumerId = value; }
+        public string ConsumerName { get => _consumerName; set => _consumerName = value; }
+
+        public void Consumer_Read()
         {
-            consumer_Id = id;
-            consumer_name = name;
+            Console.WriteLine("Enter the Consumer ID: ");
+            ConsumerId = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the Consumer Name: ");
+            ConsumerName = Console.ReadLine();
         }
 
         public void Consumer_Display()
         {
-            Console.WriteLine("Consumer Id: {0}", consumer_Id);
-            Console.WriteLine("Consumer Name: {0}", consumer_name);
+            Console.WriteLine("Consumer ID: " + ConsumerId);
+            Console.WriteLine("Consumer Name: " + ConsumerName);
         }
     }
 
-    class Consumption
+    class Consumption : Consumer
     {
-        private int unit_Previous;
-        private int unit_Current;
-        protected int unit_Consumed;
+        private double _unitPrevious;
+        private double _unitCurrent;
+        private double _unitConsumed;
 
-        public Consumption(int p, int c)
-        {
-            unit_Previous = p;
-            unit_Current = c;
-        }
+        protected double UnitConsumed { get => _unitConsumed; set => _unitConsumed = value; }
+
+        public double UnitPrevious { get => _unitPrevious; set => _unitPrevious = value; }
+        public double UnitCurrent { get => _unitCurrent; set => _unitCurrent = value; }
 
         public void Consumption_Read()
         {
-            Console.WriteLine("Enter Previous Unit: ");
-            unit_Previous = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter Current Unit: ");
-            unit_Current = Convert.ToInt32(Console.ReadLine());
+            base.Consumer_Read();
+            Console.WriteLine("Enter the Previous unit ");
+            UnitPrevious = double.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the current unit");
+            UnitCurrent = Convert.ToDouble(Console.ReadLine());
         }
 
-        public int Consumption_Calculate()
+        public void Consumption_Calculate()
         {
-            return unit_Consumed = unit_Current - unit_Previous;
+            UnitConsumed = UnitCurrent - UnitPrevious;
         }
 
         public void Consumption_Display()
         {
-            Console.WriteLine("Units Consumed: {0}", unit_Consumed);
+            base.Consumer_Display();
+            Console.WriteLine("Unit Consumed: " + UnitConsumed);
         }
     }
 
-    class Bill : Consumer 
+    class Bill : Consumption
     {
-        private double amount;
-        
-        public Bill(int id, string name, int p, int c) : base(id, name)
-        {
-            Consumption con = new Consumption(p, c);
-            con.Consumption_Read();
-            con.Consumption_Calculate();
-            con.Consumption_Display();
-            Bill_Calculate();
-            Bill_Display();
-        }
+        private double _amount;
 
-        public double Bill_Calculate()
+        public double Amount { get => _amount; set => _amount = value; }
+
+        public void Bill_Calculate()
         {
-            return amount = unit_Consumed * 0.5;
+
+            Consumption_Calculate();
+            Amount = UnitConsumed * 0.5;
         }
 
         public void Bill_Display()
         {
-            Console.WriteLine("Total Amount: {0}", amount);
+            Consumption_Display();
+            Console.WriteLine("Amount Payable: " + Amount);
         }
     }
-
-    class ProgramMI
+    class BillPayment
     {
         static void Main(string[] args)
         {
-            Bill b = new Bill(1, "sneha", 450, 2000);
-            Console.ReadKey();
+            Bill bill = new Bill();
+            bill.Consumption_Read();
+            bill.Bill_Calculate();
+            bill.Bill_Display();
+            Console.ReadLine();
         }
     }
 }
