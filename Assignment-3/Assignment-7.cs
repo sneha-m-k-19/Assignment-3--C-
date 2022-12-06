@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,26 +6,29 @@ using System.Threading.Tasks;
 //Passing Objects to functions by Reference.
 namespace Assignment_3
 {
-    class SwapStudent
+    class StudentSwap
     {
         public int id;
         public string name;
         public int mark;
         public void read()
         {
-            Console.WriteLine("Enter the Student id :");
+            Console.WriteLine("Enter the id");
             id = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter the Student Name :");
+            Console.WriteLine("Enter the name");
             name = Console.ReadLine();
-            Console.WriteLine("Enter the mark :");
+            Console.WriteLine("Enter the mark");
             mark = int.Parse(Console.ReadLine());
         }
-        public void swap(SwapStudent S1, SwapStudent S2)
+        public void swap(StudentSwap val, StudentSwap val2)
         {
-            SwapStudent temp = new SwapStudent();
-            temp = S1;
-            S1 = S2;
-            S2 = temp;
+            StudentSwap temp = new StudentSwap();
+            temp = val;
+            val = val2;
+            val2 = temp;
+            Console.WriteLine("After Swapping");
+            val.display();
+            val2.display();
         }
         public void display()
         {
@@ -39,19 +42,17 @@ namespace Assignment_3
     {
         static void Main(string[] args)
         {
-            SwapStudent s1 = new SwapStudent();
-            SwapStudent s2 = new SwapStudent();
-            s1.read();
-            s2.read();
-            Console.WriteLine("Before Swapping details :");
-            s1.display();
-            s2.display();
-            s1.swap(s1, s2);
-            Console.WriteLine("After Swapping Details :");
-            s1.display();
-            s2.display();
+            StudentSwap std1 = new StudentSwap();
+            StudentSwap std2 = new StudentSwap();
+            std1.read();
+            std2.read();
+            Console.WriteLine("Before Swapping");
+            std1.display();
+            std2.display();
+            std1.swap(std1, std2);
+
             Console.ReadLine();
         }
+
     }
- 
 }
